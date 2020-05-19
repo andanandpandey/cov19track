@@ -1,0 +1,347 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-6">
+            <div class="mb-3 update-time">
+                <span class="stats-taken mr-2">Last Update: </span>
+                <strong id="lblLastUpdate" class="text-primary">{{lastUpdate}}</strong>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="mb-3 update-time">
+                <span class="stats-taken mr-2">Country: </span>
+                <strong id="dvCountry" class="text-primary">India</strong>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-5 col-lg-12">
+            <div class="world-statistics">
+                <div class="row align-items-center">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col">
+                        <div class="world-widget">
+                            <div class="icon gradient-1">
+                                <i class="fa fa-users"></i>
+                            </div>
+                            <div>
+                                <h5>Total Cases</h5>
+                                <h2 id="total_cases">{{confirmed}}</h2>
+                                <span class="text-danger">
+                                    (+{{deltaconfirmed}})</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col">
+                        <div class="world-widget">
+                            <div class="icon gradient-9">
+                                <i class="fa fa-bed"></i>
+                            </div>
+                            <div>
+                                <h5>Total Death</h5>
+                                <h2 id="total_deaths">{{deaths}}</h2>
+                                <span class="text-danger">(+{{deltadeaths}})</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col">
+                        <div class="world-widget">
+                            <div class="icon gradient-4">
+                                <i class="fa fa-child"></i>
+                            </div>
+                            <div>
+                                <h5>Total Recovered</h5>
+                                <h2 id="total_recovered">
+                                    {{recovered}}
+                                </h2>
+                                <span class="text-primary">
+                                    (+{{deltarecovered}})</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="col-xl-6 col-lg-6 col-md-6 col">
+                        <div class="world-widget">
+                            <div class="icon gradient-3">
+                                <i class="fas fa-bell"></i>
+                            </div>
+                            <div>
+                                <h5>New Cases</h5>
+                                <h2 id="new_cases"></h2>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="col-xl-6 col-lg-6 col-md-6 col">
+                        <div class="world-widget">
+                            <div class="icon gradient-3">
+                                <i class="fa fa-bell"></i>
+                            </div>
+                            <div>
+                                <h5>Active Cases</h5>
+                                <h2 id="active_cases">{{activeCases}}</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="col-xl-6 col-lg-6 col-md-6 col">
+                        <div class="world-widget">
+                            <div class="icon gradient-12">
+                                <i class="fas fa-bed"></i>
+                            </div>
+                            <div>
+                                <h5>New Death</h5>
+                                <h2 id="new_deaths"></h2>
+                            </div>
+                        </div>
+                        <div class="world-widget">
+                            <div class="icon gradient-5">
+                                <i class="fas fa-medkit"></i>
+                            </div>
+                            <div>
+                                <h5>Helpline</h5>
+                                <h2>999</h2>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="col-xl-12 col-lg-12 col-md-12 col">
+                        <div class="world-chart mt-3">
+                            <h5>Active Cases</h5>
+                            <div class="mt-3">
+                                <canvas baseChart [data]="pandemicChartData" [labels]="pandemicChartLabels"
+                                    [chartType]="pandemicChartType" [legend]="pandemicChartLegend"
+                                    [options]="pandemicChartOptions" [colors]="pandemicChartColors"
+                                    [plugins]="pieChartPlugins"></canvas>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-7 col-lg-12">
+            <div class="world-map">
+                <div class="card">
+                    <div class="card-body">
+                        <div id="dvData">
+                            <table id="tblData" datatable
+                                class="table table-responsive table-striped table-hover table-vcenter align-items-center"
+                                dt-instance="dtInstance" [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+
+                                <thead>
+                                    <tr>
+                                        <th style="width: 31%">
+                                            State/UT
+                                        </th>
+                                        <th style="width: 18%">
+                                            Confirmed Cases
+                                        </th>
+                                        <th style="width: 15%">
+                                            Active
+                                        </th>
+                                        <th style="width: 18%">
+                                            Recovered
+                                        </th>
+                                        <th style="width: 18%">
+                                            Deaths
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of covindiaData | slice:1">
+                                        <td>{{item.state}}</td>
+                                        <td>{{item.confirmed}}<span
+                                                class="text-danger">(+{{item.deltaconfirmed}})</span>
+                                        </td>
+                                        <td><span class="text-primary">{{item.active}}</span></td>
+                                        <td>{{item.recovered}} <span
+                                                class="text-success">(+{{item.deltarecovered}})</span>
+                                        </td>
+                                        <td>{{item.deaths}} <span class="text-danger">(+{{item.deltadeaths}})</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <!-- <table
+                                class="table table-responsive table-striped table-hover table-vcenter align-items-center"
+                                [mfData]="covindiaData | slice:1" #mf="mfDataTable" [mfRowsOnPage]="10"
+                                [mfSortBy]="confirmed">
+
+                                <thead>
+                                    <tr>
+                                        <th style="width: 31%">
+                                            <mfDefaultSorter by="state">State/UT<i class="fa fa-sort"></i>
+                                            </mfDefaultSorter>
+                                        </th>
+                                        <th style="width: 18%">
+                                            <mfDefaultSorter by="confirmed">Confirmed Cases <i class="fa fa-sort"></i>
+                                            </mfDefaultSorter>
+                                        </th>
+                                        <th style="width: 15%">
+                                            <mfDefaultSorter by="active">Active <i class="fa fa-sort"></i>
+                                            </mfDefaultSorter>
+                                        </th>
+                                        <th style="width: 18%">
+                                            <mfDefaultSorter by="recovered">Recovered <i class="fa fa-sort"></i>
+                                            </mfDefaultSorter>
+                                        </th>
+                                        <th style="width: 18%">
+                                            <mfDefaultSorter by="deaths">Deaths <i class="fa fa-sort"></i>
+                                            </mfDefaultSorter>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of mf.data">
+                                        <td>{{item.state}}</td>
+                                        <td>{{item.confirmed}} <span class="text-danger">({{deltaconfirmed}})</span>
+                                        </td>
+                                        <td><span class="text-primary">{{item.active}}</span></td>
+                                        <td>{{item.recovered}} <span class="text-success">(+{{deltarecovered}})</span>
+                                        </td>
+                                        <td>{{item.deaths}} <span class="text-danger">(+{{deltadeaths}})</span></td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="5">
+                                            <mfBootstrapPaginator [rowsOnPageSet]="[10,20,50]"></mfBootstrapPaginator>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="row justify-content-center text-center">
+        <div class="col">
+            <div class="google-ads-leaderboard">
+                <img src="images/ads-ads1.jpg" alt="" class="img-fluid">
+                <p>Add you ads here</p>
+            </div>
+        </div>
+    </div> -->
+
+    <div class="row">
+        <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6">
+            <div class="country-statistics">
+                <h4>Top Cases</h4>
+                <ul id="country_cases" class="alt-amin">
+                    <li *ngFor="let item of top10Cases"><span>{{item.state}}</span> <span>{{item.confirmed}}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6">
+            <div class="country-statistics">
+                <h4>Today Cases</h4>
+                <ul id="country_todayCases" class="alt-blue">
+                    <li *ngFor="let item of top10CaseToday"><span>{{item.state}}</span>
+                        <span>{{item.deltaconfirmed}}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6">
+            <div class="country-statistics">
+                <h4>Top Actived</h4>
+                <ul id="country_active" class="alt-frost">
+                    <li *ngFor="let item of top10Active"><span>{{item.state}}</span> <span>{{item.active}}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6">
+            <div class="country-statistics">
+                <h4>Top Recovered</h4>
+                <ul id="country_recovered" class="alt-green">
+                    <li *ngFor="let item of top10Recovered"><span>{{item.state}}</span> <span>{{item.recovered}}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6">
+            <div class="country-statistics">
+                <h4>Top Deaths</h4>
+                <ul id="country_deaths" class="alt-red">
+                    <li *ngFor="let item of top10death"><span>{{item.state}}</span> <span>{{item.deaths}}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-xl-2 col-lg-4 col-md-4 col-sm-6">
+            <div class="country-statistics">
+                <h4>Today Death</h4>
+                <ul id="country_todayDeath" class="alt-orange">
+                    <li *ngFor="let item of top10deathToday"><span>{{item.state}}</span>
+                        <span>{{item.deltadeaths}}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="row justify-content-center text-center">
+        <div class="col">
+            <div class="google-ads-leaderboard">
+                <img src="images/ads-ads2.jpg" alt="" class="img-fluid">
+                <p>Add you ads here</p>
+            </div>
+        </div>
+    </div> -->
+
+    <!-- <div class="row">
+        <div class="col-xl-3">
+            <div class="row">
+                <div class="col-xl-12 col-lg-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">WHO Latest News</h4>
+                        </div>
+                        <div class="card-body">
+                            <ul id="news"></ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-12 col-lg-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">WHO Latest Situation</h4>
+                        </div>
+                        <div class="card-body">
+                            <ul id="situation"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-9">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Asia</h4>
+                </div>
+                <div class="card-body">
+                    <div class="all-country table-responsive">
+                        <table id="world_table" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="width:30px">Serial</th>
+                                    <th>Flag</th>
+                                    <th style="width:200px">Country</th>
+                                    <th>Cases</th>
+                                    <th>New Cases</th>
+                                    <th>Deaths</th>
+                                    <th>New Deaths</th>
+                                    <th>Recovered</th>
+                                    <th>Active</th>
+                                    <th>Critical</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+</div>
