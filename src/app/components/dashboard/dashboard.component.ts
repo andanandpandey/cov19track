@@ -63,7 +63,6 @@ export class DashboardComponent implements OnDestroy, OnInit {
 
     this._service.getCovid19India()
       .subscribe((res: any) => {
-        console.log(res.statewise)
         this.covindiaData = res.statewise;
         this.dtTrigger.next();
 
